@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import TodoList from "./TodoList";
 import Header from "./Header";
+import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [todo, setTodo] = useState("");
@@ -27,6 +27,14 @@ export default function App() {
     );
   };
 
+  const editText = (item, newText) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.text === item.text ? { ...todo, text: newText } : todo
+      )
+    );
+  };
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -39,6 +47,7 @@ export default function App() {
       <TodoForm todo={todo} setTodo={setTodo} handleSubmit={handleSubmit} />
       <TodoList
         todos={todos}
+        editText={editText}
         handleDone={handleDone}
         handleDelete={handleDelete}
       />
